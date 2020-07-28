@@ -12,7 +12,7 @@ const UIcomponent = (props)=>{
             bordered
             dataSource={props.list}
             renderItem={(item,index) => (
-              <List.Item onClick={(index)=>{
+              <List.Item onClick={()=>{
                   props.deletething(index)
               }}>
                  {item}

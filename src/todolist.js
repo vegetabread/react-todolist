@@ -1,8 +1,8 @@
 import React from 'react'
 import Store from './store'
-import {add,deletething,change,getdata} from './store/actioncreator'
+import {add,deletething,change, getajaxdata} from './store/actioncreator'
 import UIcomponent from './uicomponent'
-import axios from 'axios'
+
 import 'antd/dist/antd.css';
   
 class Todolist extends React.Component {
@@ -26,12 +26,8 @@ class Todolist extends React.Component {
         )
     }
     componentDidMount(){
-        axios.get('http://localhost:3001/list.json').then((res)=>{
-            console.log('this is res', res.data)
-            const data = res.data
-            const action = getdata(data)
-            Store.dispatch(action)
-        })
+        const action = getajaxdata()
+        Store.dispatch(action)
     }
     deletetodo(index){
         const action = deletething(index)
