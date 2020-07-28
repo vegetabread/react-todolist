@@ -1,10 +1,9 @@
 import React from 'react'
-import 'antd/dist/antd.css';
-import { Input, Button, List } from 'antd';
 import Store from './store'
-import {add,deletething,change} from './store/actioncreator'
-
-
+import {add,deletething,change,getdata} from './store/actioncreator'
+import UIcomponent from './uicomponent'
+import axios from 'axios'
+import 'antd/dist/antd.css';
   
 class Todolist extends React.Component {
     constructor(props) {
@@ -13,28 +12,26 @@ class Todolist extends React.Component {
         this.changeinput= this.changeinput.bind(this)
         this.showinputcontent = this.showinputcontent.bind(this)
         this.addtodo = this.addtodo.bind(this)
+        this.deletetodo = this.deletetodo.bind(this)
         Store.subscribe(this.showinputcontent)
     }
     render() {
         return (
-            <div>
-                <div style={{margin:'10px'}}>
-                <Input placeholder='请输入todolist' value={this.state.inputval} onChange={this.changeinput} style={{width:'300px'}}/>
-                <Button type="primary" onClick={this.addtodo}>点击添加</Button>
-                </div>
-                <div style={{width:'300px', margin:'10px'}}>
-                <List
-                    bordered
-                    dataSource={this.state.list}
-                    renderItem={(item,index) => (
-                      <List.Item onClick={this.deletetodo.bind(this,index)}>
-                         {item}
-                      </List.Item>
-                    )}
-                />
-                </div>
-            </div>
+            <UIcomponent value={this.state.inputval}
+            list={this.state.list}
+            addtodo={this.addtodo}
+            changeinput={this.changeinput}
+            deletething={this.deletetodo}
+            />
         )
+    }
+    componentDidMount(){
+        axios.get('http://localhost:3001/list.json').then((res)=>{
+            console.log('this is res', res.data)
+            const data = res.data
+            const action = getdata(data)
+            Store.dispatch(action)
+        })
     }
     deletetodo(index){
         const action = deletething(index)

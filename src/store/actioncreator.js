@@ -1,4 +1,4 @@
-import { DELETE_THING, ADDING_THING, CHANGING_THING} from './actionname'
+import { DELETE_THING, ADDING_THING, CHANGING_THING, GET_DATA} from './actionname'
 export const deletething = (index)=>{
     return {
         type:DELETE_THING,
@@ -15,5 +15,11 @@ export const change = (val)=>{
     return {
         type:CHANGING_THING,
         val
+    }
+}
+export const getdata = (index)=>{
+    return {
+        type:GET_DATA,
+        val: index
     }
 }
